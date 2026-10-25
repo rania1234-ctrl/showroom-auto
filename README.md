@@ -1,59 +1,41 @@
-# ShowroomAuto
+# Maison Rania — Showroom automobile
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.4.
+Application Angular réalisée dans le cadre du TP « Showroom-auto » du module
+*Framework de développement web* (3BI, IHEC Carthage, 2026-2027).
 
-## Development server
+**Site en ligne :** https://rania1234-ctrl.github.io/showroom-auto/
 
-To start a local development server, run:
+## Le projet
+Maison Rania est un showroom de voitures de luxe fictif, situé aux Berges du Lac 2 à Tunis.
+À partir du TP de base (recherche par marque et affichage des détails d'une voiture),
+l'application a été enrichie pour devenir un site complet.
 
+## Fonctionnalités
+- **Recherche et filtres** : recherche par marque ou modèle, filtre par marque, budget maximum et tri.
+- **Fiche détaillée** pour chaque voiture, avec des suggestions de la même marque.
+- **Favoris** sauvegardés dans le navigateur.
+- **Comparateur** de 2 à 3 voitures, avec mise en évidence des meilleures valeurs.
+- **Formulaire de réservation** (essai ou réservation avec acompte), avec validation des champs.
+- **Simulateur de leasing** : apport, durée, taux et valeur résiduelle.
+- **Mode sombre** et **version mobile** avec menu burger.
+
+## Notions Angular utilisées
+- Composants et communication parent/enfant avec `@Input` et `@Output` / `EventEmitter`
+- Nouveau contrôle de flux : `@for`, `@if`, `@else`, `@empty`
+- Data binding : interpolation, property binding, event binding, style et class binding
+- Services et injection de dépendances (`CarService`, `FavoritesService`, `CompareService`, `AppointmentService`, `ThemeService`)
+- Observables RxJS (`BehaviorSubject`, `combineLatest`) et pipe `async`
+- Routage avec paramètres (`/car/:id`), paramètres de requête (`?brand=BMW`) et `routerLinkActive`
+- Pipes intégrés (`number`, `date`) et pipe personnalisé (`truncate`)
+- Reactive Forms avec validateurs intégrés et validateur personnalisé
+- Interfaces TypeScript (`Auto`, `Appointment`) et sauvegarde avec `localStorage`
+
+## Lancer le projet en local
 ```bash
+npm install
 ng serve
 ```
+Puis ouvrir http://localhost:4200
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Autrice
+**Rania Ben Brahim** — 3BI, IHEC Carthage
