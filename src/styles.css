@@ -1,1 +1,413 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --noir: #141213;
+  --creme: #faf7f5;
+  --rose: #c9849f;
+  --rose-fonce: #a8607d;
+  --or: #c8a96a;
+  --texte: #3d3a3b;
+  --gris: #8a8587;
+  --font-titre: 'Playfair Display', serif;
+  --font-texte: 'Inter', sans-serif;
+
+  /* Couleurs du thème sombre */
+  --dk-bg: #121011;
+  --dk-surface: #1c1819;
+  --dk-surface-2: #262123;
+  --dk-border: #352e31;
+  --dk-heading: #f4eef1;
+  --dk-text: #d9d2d5;
+  --dk-muted: #9a9295;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-texte);
+  background-color: var(--creme);
+  color: var(--texte);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page {
+  padding: 140px 8% 60px;
+}
+
+.section-title {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.section-title span {
+  color: var(--or);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.section-title h2 {
+  margin: 10px 0 0;
+  font-family: var(--font-titre);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: var(--noir);
+}
+
+.section-title p {
+  margin: 12px 0 0;
+  color: var(--gris);
+}
+
+/* ----- Boutons ----- */
+.btn,
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 30px;
+  border: 2px solid var(--noir);
+  border-radius: 40px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn {
+  background-color: var(--noir);
+  color: white;
+}
+
+.btn:hover {
+  border-color: var(--rose);
+  background-color: var(--rose);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(201, 132, 159, 0.35);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--noir);
+}
+
+.btn-outline:hover {
+  background-color: var(--noir);
+  color: white;
+}
+
+.btn-outline.active {
+  border-color: var(--rose);
+  background-color: var(--rose);
+  color: white;
+}
+
+.btn:disabled,
+.btn-outline:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ----- Petits boutons ronds (favoris, comparaison) ----- */
+.card-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.92);
+  color: #b9b1b4;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+}
+
+.icon-btn:hover {
+  color: var(--rose);
+  transform: scale(1.08);
+}
+
+.icon-btn.active {
+  background-color: var(--rose);
+  color: white;
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ----- Logo : version claire / sombre ----- */
+.logo-dark {
+  display: none;
+}
+
+/* =========================================================
+   THÈME SOMBRE
+   On utilise !important pour passer au-dessus des styles
+   propres à chaque composant.
+   ========================================================= */
+body.dark {
+  --creme: var(--dk-bg);
+  --texte: var(--dk-text);
+  --gris: var(--dk-muted);
+  background-color: var(--dk-bg);
+  color: var(--dk-text);
+}
+
+body.dark .logo-light {
+  display: none !important;
+}
+
+body.dark .logo-dark {
+  display: block !important;
+}
+
+/* Titres et textes forts */
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark .navbar .brand,
+body.dark .card-price,
+body.dark .specs strong,
+body.dark .control strong,
+body.dark .fav-info p,
+body.dark .summary-line strong,
+body.dark .cell,
+body.dark .type-option strong,
+body.dark .booking-item strong,
+body.dark .empty p,
+body.dark .link.active {
+  color: var(--dk-heading) !important;
+}
+
+body.dark .price,
+body.dark .summary-line.highlight strong {
+  color: var(--rose) !important;
+}
+
+body.dark .cell.best {
+  background-color: rgba(201, 132, 159, 0.14) !important;
+  color: var(--rose) !important;
+}
+
+/* Surfaces (cartes, blocs) */
+body.dark .featured-card,
+body.dark .auto-card,
+body.dark .container,
+body.dark .chip,
+body.dark .control select,
+body.dark .specs div,
+body.dark .similar-card,
+body.dark .fav-card,
+body.dark .compare-table,
+body.dark .booking-form,
+body.dark .car-summary,
+body.dark .my-bookings,
+body.dark .info-card,
+body.dark .brands,
+body.dark .why {
+  background-color: var(--dk-surface) !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+body.dark .car-summary.placeholder {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Petites surfaces (étiquettes, préfixes) */
+body.dark .card-meta span,
+body.dark .phone span,
+body.dark .tag,
+body.dark .remove {
+  background-color: var(--dk-surface-2) !important;
+  color: var(--dk-text) !important;
+}
+
+body.dark .tag.reservation {
+  background-color: var(--rose) !important;
+  color: white !important;
+}
+
+/* Bordures */
+body.dark .details,
+body.dark .row,
+body.dark .summary-line,
+body.dark .booking-item,
+body.dark .brands,
+body.dark .container,
+body.dark .chip,
+body.dark .control select,
+body.dark .type-option,
+body.dark .placeholder,
+body.dark .field input,
+body.dark .field select,
+body.dark .field textarea {
+  border-color: var(--dk-border) !important;
+}
+
+/* Champs du formulaire */
+body.dark .field input,
+body.dark .field select,
+body.dark .field textarea {
+  background-color: var(--dk-surface-2) !important;
+  color: var(--dk-heading) !important;
+}
+
+body.dark .field input:focus,
+body.dark .field select:focus,
+body.dark .field textarea:focus {
+  border-color: var(--rose) !important;
+  background-color: var(--dk-surface) !important;
+}
+
+body.dark .field .invalid {
+  border-color: #e06c66 !important;
+}
+
+body.dark .type-option.active {
+  border-color: var(--rose) !important;
+  background-color: rgba(201, 132, 159, 0.12) !important;
+}
+
+body.dark input[type="date"],
+body.dark select {
+  color-scheme: dark;
+}
+
+/* Boutons */
+body.dark .btn,
+body.dark .hero-btn,
+body.dark .nav-cta,
+body.dark .see_more button,
+body.dark .chip.active {
+  border-color: var(--dk-heading) !important;
+  background-color: var(--dk-heading) !important;
+  color: var(--noir) !important;
+}
+
+body.dark .btn:hover,
+body.dark .hero-btn:hover,
+body.dark .nav-cta:hover,
+body.dark .see_more button:hover {
+  border-color: var(--rose) !important;
+  background-color: var(--rose) !important;
+  color: white !important;
+}
+
+body.dark .btn-outline {
+  border-color: var(--dk-heading) !important;
+  color: var(--dk-heading) !important;
+}
+
+body.dark .btn-outline:hover {
+  background-color: var(--dk-heading) !important;
+  color: var(--noir) !important;
+}
+
+body.dark .btn-outline.active {
+  border-color: var(--rose) !important;
+  background-color: var(--rose) !important;
+  color: white !important;
+}
+
+/* Icônes et barre de navigation */
+body.dark .container fa-icon,
+body.dark .burger,
+body.dark .theme-toggle {
+  border-color: var(--dk-border) !important;
+  color: var(--dk-heading) !important;
+}
+
+body.dark .navbar.scrolled {
+  background-color: rgba(18, 16, 17, 0.88) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Bannière : la voiture est posée sur un panneau clair, comme en studio */
+body.dark .hero {
+  background: linear-gradient(120deg, #121011 0%, #1d181a 100%) !important;
+}
+
+body.dark .hero-watermark {
+  color: rgba(201, 132, 159, 0.07) !important;
+}
+
+body.dark .hero-stage {
+  padding: 28px;
+  border-radius: 32px;
+  background: radial-gradient(ellipse at 50% 55%, #f6f1f3 0%, #e6dde1 70%, #d6ccd0 100%);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Photos sur fond blanc dans les cartes sombres */
+body.dark .similar-card img,
+body.dark .car-summary img {
+  padding: 10px;
+  border-radius: 14px;
+  background-color: white;
+  mix-blend-mode: normal !important;
+}
+
+/* Blocs déjà sombres : on ajoute juste une bordure discrète */
+body.dark .simulator,
+body.dark .confirmation {
+  border: 1px solid var(--dk-border);
+  background-color: #1a1617 !important;
+}
+
+body.dark .footer {
+  border-top: 1px solid var(--dk-border);
+}
+
+/* =========================================================
+   VERSION MOBILE
+   ========================================================= */
+@media (max-width: 960px) {
+  body.dark .navbar .right {
+    background-color: rgba(18, 16, 17, 0.98) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 110px 6% 50px;
+  }
+
+  .section-title {
+    margin-bottom: 28px;
+  }
+
+  .btn,
+  .btn-outline {
+    padding: 12px 22px;
+  }
+
+  .compare-bar .text {
+    display: none;
+  }
+}

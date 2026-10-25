@@ -1,0 +1,11 @@
+<section class="collection-page">
+  <div class="section-title">
+    <span>Our collection</span>
+    <h2>Find your next car</h2>
+    <p>{{autoList.length}} exceptional cars, ready to drive.</p>
+  </div>
+  <app-search-bar
+    [autos]="autoList"
+    [initialBrand]="brand ?? ''"
+    (onSelectCar)="openCar($event)" />
+</section>

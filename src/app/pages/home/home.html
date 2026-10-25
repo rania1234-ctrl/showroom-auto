@@ -1,0 +1,55 @@
+<app-head-bar />
+
+<section class="brands">
+  @for (brand of brands; track brand) {
+    <a routerLink="/collection" [queryParams]="{ brand: brand }">{{brand}}</a>
+  }
+</section>
+
+<section class="featured">
+  <div class="section-title">
+    <span>Featured</span>
+    <h2>Our signature selection</h2>
+  </div>
+  <div class="featured-grid">
+    @for (car of featured; track car.id) {
+      <a class="featured-card" [routerLink]="['/car', car.id]">
+        <div class="featured-image">
+          <img [src]="`photos/${car.photo}`" [alt]="car.model">
+        </div>
+        <div class="featured-info">
+          <span class="brand">{{car.brand}}</span>
+          <h3>{{car.model}}</h3>
+          <p>From {{car.price | number:'1.0-0':'fr'}} DT</p>
+        </div>
+      </a>
+    }
+  </div>
+  <div class="center">
+    <a routerLink="/collection" class="btn-outline">View the full collection</a>
+  </div>
+</section>
+
+<section class="why">
+  <div class="section-title">
+    <span>Why Maison Rania</span>
+    <h2>More than a showroom</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item">
+      <span class="num">01</span>
+      <h3>Certified excellence</h3>
+      <p>Every car is carefully inspected and delivered with its full manufacturer warranty.</p>
+    </div>
+    <div class="why-item">
+      <span class="num">02</span>
+      <h3>Tailored financing</h3>
+      <p>Leasing and credit solutions designed with our banking partners to fit your budget.</p>
+    </div>
+    <div class="why-item">
+      <span class="num">03</span>
+      <h3>Private test drive</h3>
+      <p>Book a personal test drive in Les Berges du Lac, at the time that suits you.</p>
+    </div>
+  </div>
+</section>

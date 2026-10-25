@@ -1,0 +1,65 @@
+@if (car) {
+  <section class="page">
+    <a routerLink="/collection" class="back">← Back to collection</a>
+    <div class="detail-grid">
+      <div class="detail-image">
+        <img [src]="`photos/${car.photo}`" [alt]="car.model">
+      </div>
+      <div class="detail-info">
+        <span class="brand">{{car.brand}}</span>
+        <h1>{{car.model}}</h1>
+        <p class="price">{{car.price | number:'1.0-0':'fr'}} DT</p>
+        <div class="specs">
+          <div><strong>{{car.power}} CV</strong><span>Fiscal power</span></div>
+          <div><strong>{{car.availability}}</strong><span>Units in stock</span></div>
+          <div><strong>New</strong><span>Condition</span></div>
+        </div>
+        <p class="description">{{car.description}}</p>
+        <div class="actions">
+          <a routerLink="/book" [queryParams]="{ car: car.id }" class="btn">Book a test drive</a>
+          <button
+            class="btn-outline"
+            [class.active]="favorites.isFavorite(car.id)"
+            (click)="favorites.toggle(car.id)">
+            <fa-icon [icon]="faHeart" />
+            {{ favorites.isFavorite(car.id) ? 'In favorites' : 'Add to favorites' }}
+          </button>
+          <button
+            class="btn-outline"
+            [class.active]="compare.isSelected(car.id)"
+            [disabled]="compare.isFull && !compare.isSelected(car.id)"
+            (click)="compare.toggle(car.id)">
+            <fa-icon [icon]="faScaleBalanced" />
+            {{ compare.isSelected(car.id) ? 'In comparison' : 'Compare' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <app-leasing-simulator [price]="car.price" [carId]="car.id" />
+  </section>
+
+  @if (similar.length > 0) {
+    <section class="similar">
+      <div class="section-title">
+        <span>You may also like</span>
+        <h2>More from {{car.brand}}</h2>
+      </div>
+      <div class="similar-grid">
+        @for (other of similar; track other.id) {
+          <a class="similar-card" [routerLink]="['/car', other.id]">
+            <img [src]="`photos/${other.photo}`" [alt]="other.model">
+            <h3>{{other.model}}</h3>
+            <p>{{other.price | number:'1.0-0':'fr'}} DT</p>
+          </a>
+        }
+      </div>
+    </section>
+  }
+} @else {
+  <section class="page not-found">
+    <h1>Car not found</h1>
+    <p>This car is no longer available in our collection.</p>
+    <a routerLink="/collection" class="btn">Back to collection</a>
+  </section>
+}

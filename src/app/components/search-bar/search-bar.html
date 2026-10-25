@@ -1,0 +1,92 @@
+<div class="container">
+  <label>Search</label>
+  <input type="text" #brand placeholder="Brand or model, e.g. BMW" (input)="selectAutos(brand.value)">
+  <fa-icon [icon]="faMagnifyingGlass" (click)="selectAutos(brand.value)" />
+</div>
+
+<div class="filters">
+  <div class="chips">
+    <button class="chip" [class.active]="activeBrand === ''" (click)="selectBrand('')">All</button>
+    @for (b of brands; track b) {
+      <button class="chip" [class.active]="activeBrand === b" (click)="selectBrand(b)">{{b}}</button>
+    }
+  </div>
+
+  <div class="controls">
+    <div class="control">
+      <span>Max budget : <strong>{{budget | number:'1.0-0':'fr'}} DT</strong></span>
+      <input
+        type="range"
+        #budgetRange
+        [min]="minPrice"
+        [max]="maxPrice"
+        step="1000"
+        [value]="budget"
+        (input)="setBudget(budgetRange.value)">
+    </div>
+    <div class="control">
+      <span>Sort by</span>
+      <select #sort [value]="sortBy" (change)="setSort(sort.value)">
+        <option value="default">Featured</option>
+        <option value="price-asc">Price : low to high</option>
+        <option value="price-desc">Price : high to low</option>
+        <option value="power-desc">Power : high to low</option>
+      </select>
+    </div>
+  </div>
+
+  <p class="count">
+    {{selectedAutos.length}} car(s) found ·
+    <button class="reset" (click)="resetFilters(brand)">Reset filters</button>
+  </p>
+</div>
+
+<div class="auto-list">
+  @for (auto of selectedAutos; track auto.id) {
+    <div class="auto-card">
+      <div class="card-image">
+        @if (auto.availability === 0) {
+          <span class="badge sold">Sold out</span>
+        } @else if (auto.availability <= 3) {
+          <span class="badge">Last units</span>
+        }
+        <div class="card-actions">
+          <button
+            class="icon-btn"
+            title="Add to favorites"
+            [class.active]="favorites.isFavorite(auto.id)"
+            (click)="favorites.toggle(auto.id)">
+            <fa-icon [icon]="faHeart" />
+          </button>
+          <button
+            class="icon-btn"
+            title="Compare"
+            [class.active]="compare.isSelected(auto.id)"
+            [disabled]="compare.isFull && !compare.isSelected(auto.id)"
+            (click)="compare.toggle(auto.id)">
+            <fa-icon [icon]="faScaleBalanced" />
+          </button>
+        </div>
+        <img [src]="`photos/${auto.photo}`" [alt]="auto.model">
+      </div>
+      <div class="details">
+        <span class="card-brand">{{auto.brand}}</span>
+        <h3>{{auto.model}}</h3>
+        <p class="excerpt">{{auto.description | truncate:90}}</p>
+        <div class="card-meta">
+          <span>{{auto.power}} CV</span>
+          <span>{{auto.availability}} in stock</span>
+        </div>
+        <p class="card-price">{{auto.price | number:'1.0-0':'fr'}} DT</p>
+      </div>
+      <div class="see_more">
+        <button (click)="selectCar(auto)">See more...</button>
+      </div>
+    </div>
+  } @empty {
+    <div class="empty">
+      <p>No car matches your search.</p>
+      <button class="reset" (click)="resetFilters(brand)">Reset filters</button>
+    </div>
+  }
+</div>

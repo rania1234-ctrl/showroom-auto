@@ -1,0 +1,42 @@
+<nav class="navbar" [class.scrolled]="scrolled || menuOpen">
+  <a class="brand" routerLink="/" (click)="closeMenu()">
+    <img class="logo logo-light" src="images/logo.png" alt="Maison Rania logo">
+    <img class="logo logo-dark" src="images/logo-white.png" alt="Maison Rania logo">
+    <span>Maison <em>Rania</em></span>
+  </a>
+
+  <div class="right" [class.open]="menuOpen">
+    <ul (click)="closeMenu()">
+      <li>
+        <a class="link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      </li>
+      <li>
+        <a class="link" routerLink="/collection" routerLinkActive="active">Collection</a>
+      </li>
+      <li>
+        <a class="link" routerLink="/favorites" routerLinkActive="active">
+          Favorites
+          @if (favorites.count > 0) {
+            <span class="count">{{favorites.count}}</span>
+          }
+        </a>
+      </li>
+      <li>
+        <a class="link" routerLink="/contact" routerLinkActive="active">Contact</a>
+      </li>
+    </ul>
+    <div class="tools">
+      <button
+        class="theme-toggle"
+        [title]="theme.dark ? 'Light mode' : 'Dark mode'"
+        (click)="theme.toggle()">
+        <fa-icon [icon]="theme.dark ? faSun : faMoon" />
+      </button>
+      <a class="nav-cta" routerLink="/book" (click)="closeMenu()">Book a visit</a>
+    </div>
+  </div>
+
+  <button class="burger" aria-label="Menu" (click)="toggleMenu()">
+    <fa-icon [icon]="menuOpen ? faXmark : faBars" />
+  </button>
+</nav>

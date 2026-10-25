@@ -1,0 +1,74 @@
+<section class="page">
+  <div class="section-title">
+    <span>Side by side</span>
+    <h2>Compare your favorites</h2>
+    <p>The best value of each line is highlighted in pink.</p>
+  </div>
+
+  @if (cars.length < 2) {
+    <div class="empty">
+      <h3>Select at least 2 cars</h3>
+      <p>Use the ⚖ button on the cars of the collection to add them here (up to 3).</p>
+      <a routerLink="/collection" class="btn">Go to the collection</a>
+    </div>
+  } @else {
+    <div class="compare-table" [style.--cols]="cars.length">
+      <div class="row head">
+        <div class="label"></div>
+        @for (car of cars; track car.id) {
+          <div class="cell">
+            <button class="remove" title="Remove" (click)="compare.toggle(car.id)">×</button>
+            <div class="cell-image">
+              <img [src]="`photos/${car.photo}`" [alt]="car.model">
+            </div>
+            <span class="brand">{{car.brand}}</span>
+            <h3>{{car.model}}</h3>
+          </div>
+        }
+      </div>
+
+      <div class="row">
+        <div class="label">Price</div>
+        @for (car of cars; track car.id) {
+          <div class="cell" [class.best]="car.price === lowestPrice">
+            {{car.price | number:'1.0-0':'fr'}} DT
+          </div>
+        }
+      </div>
+
+      <div class="row">
+        <div class="label">Fiscal power</div>
+        @for (car of cars; track car.id) {
+          <div class="cell" [class.best]="car.power === highestPower">{{car.power}} CV</div>
+        }
+      </div>
+
+      <div class="row">
+        <div class="label">In stock</div>
+        @for (car of cars; track car.id) {
+          <div class="cell" [class.best]="car.availability === highestStock">{{car.availability}} units</div>
+        }
+      </div>
+
+      <div class="row">
+        <div class="label">Overview</div>
+        @for (car of cars; track car.id) {
+          <div class="cell text">{{car.description | truncate:140}}</div>
+        }
+      </div>
+
+      <div class="row">
+        <div class="label"></div>
+        @for (car of cars; track car.id) {
+          <div class="cell">
+            <a [routerLink]="['/car', car.id]" class="btn-outline">View details</a>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="center">
+      <button class="reset" (click)="compare.clear()">Clear the comparison</button>
+    </div>
+  }
+</section>

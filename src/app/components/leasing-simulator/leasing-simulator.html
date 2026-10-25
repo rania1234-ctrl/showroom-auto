@@ -1,0 +1,86 @@
+<div class="simulator">
+  <div class="sim-intro">
+    <span class="eyebrow">Leasing simulator</span>
+    <h3>Drive it from</h3>
+    <p class="monthly">
+      {{monthly | number:'1.0-0':'fr'}} <small>DT / month</small>
+    </p>
+    <p class="intro-text">
+      Adjust the settings to build the plan that fits you. The result updates instantly.
+    </p>
+
+    <div class="bar">
+      <span class="part down" [style.width.%]="share(downPayment)" title="Down payment"></span>
+      <span class="part payments" [style.width.%]="share(totalPayments)" title="Monthly payments"></span>
+      <span class="part residual" [style.width.%]="share(residual)" title="Residual value"></span>
+    </div>
+    <div class="legend">
+      <span><i class="dot down"></i> Down payment</span>
+      <span><i class="dot payments"></i> Monthly payments</span>
+      <span><i class="dot residual"></i> Residual value</span>
+    </div>
+
+    <a routerLink="/book" [queryParams]="{ car: carId }" class="cta">Discuss this offer →</a>
+  </div>
+
+  <div class="sim-controls">
+    <div class="control">
+      <div class="control-head">
+        <span>Down payment · {{downPercent}}%</span>
+        <strong>{{downPayment | number:'1.0-0':'fr'}} DT</strong>
+      </div>
+      <input type="range" #down min="10" max="50" step="5" [value]="downPercent" (input)="setDown(down.value)">
+    </div>
+
+    <div class="control">
+      <div class="control-head">
+        <span>Duration</span>
+        <strong>{{months}} months</strong>
+      </div>
+      <div class="durations">
+        @for (d of durations; track d) {
+          <button type="button" [class.active]="months === d" (click)="setMonths(d)">{{d}}</button>
+        }
+      </div>
+    </div>
+
+    <div class="control">
+      <div class="control-head">
+        <span>Annual rate</span>
+        <strong>{{rate | number:'1.1-1':'fr'}} %</strong>
+      </div>
+      <input type="range" #rateInput min="6" max="14" step="0.5" [value]="rate" (input)="setRate(rateInput.value)">
+    </div>
+
+    <div class="control">
+      <div class="control-head">
+        <span>Residual value · {{residualPercent}}%</span>
+        <strong>{{residual | number:'1.0-0':'fr'}} DT</strong>
+      </div>
+      <input type="range" #res min="0" max="30" step="5" [value]="residualPercent" (input)="setResidual(res.value)">
+    </div>
+
+    <div class="results">
+      <div class="line">
+        <span>Financed amount</span>
+        <strong>{{financed | number:'1.0-0':'fr'}} DT</strong>
+      </div>
+      <div class="line">
+        <span>{{months}} payments of</span>
+        <strong>{{monthly | number:'1.0-0':'fr'}} DT</strong>
+      </div>
+      <div class="line">
+        <span>Total cost</span>
+        <strong>{{totalCost | number:'1.0-0':'fr'}} DT</strong>
+      </div>
+      <div class="line accent">
+        <span>Cost of financing</span>
+        <strong>{{financingCost | number:'1.0-0':'fr'}} DT</strong>
+      </div>
+    </div>
+
+    <p class="disclaimer">
+      Indicative simulation, non-contractual. Final conditions depend on our banking and leasing partners.
+    </p>
+  </div>
+</div>

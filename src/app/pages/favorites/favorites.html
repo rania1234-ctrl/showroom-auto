@@ -1,0 +1,38 @@
+<section class="page">
+  <div class="section-title">
+    <span>Your selection</span>
+    <h2>My favorites</h2>
+    <p>The cars you fell in love with, saved for later.</p>
+  </div>
+
+  @if (cars.length === 0) {
+    <div class="empty">
+      <fa-icon [icon]="faHeart" class="empty-icon" />
+      <h3>No favorites yet</h3>
+      <p>Tap the heart on any car to keep it here.</p>
+      <a routerLink="/collection" class="btn">Explore the collection</a>
+    </div>
+  } @else {
+    <div class="fav-grid">
+      @for (car of cars; track car.id) {
+        <div class="fav-card">
+          <div class="card-actions">
+            <button class="icon-btn active" title="Remove" (click)="favorites.toggle(car.id)">
+              <fa-icon [icon]="faHeart" />
+            </button>
+          </div>
+          <a [routerLink]="['/car', car.id]" class="fav-link">
+            <div class="fav-image">
+              <img [src]="`photos/${car.photo}`" [alt]="car.model">
+            </div>
+            <div class="fav-info">
+              <span class="brand">{{car.brand}}</span>
+              <h3>{{car.model}}</h3>
+              <p>{{car.price | number:'1.0-0':'fr'}} DT</p>
+            </div>
+          </a>
+        </div>
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,176 @@
+<section class="page">
+  <div class="section-title">
+    <span>Private appointment</span>
+    <h2>Book your visit</h2>
+    <p>Test drive a car, or reserve it before someone else does.</p>
+  </div>
+
+  <div class="booking-grid">
+    <form class="booking-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+      <div class="type-toggle">
+        <label class="type-option" [class.active]="!isReservation">
+          <input type="radio" formControlName="type" value="test-drive">
+          <strong>Test drive</strong>
+          <small>Free · about 45 minutes</small>
+        </label>
+        <label class="type-option" [class.active]="isReservation">
+          <input type="radio" formControlName="type" value="reservation">
+          <strong>Reserve this car</strong>
+          <small>10% deposit · held for 7 days</small>
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="car">Car</label>
+        <select id="car" formControlName="carId" [class.invalid]="isInvalid('carId')">
+          <option [ngValue]="null" disabled>Choose a car</option>
+          @for (c of cars; track c.id) {
+            <option [ngValue]="c.id">{{c.brand}} {{c.model}}</option>
+          }
+        </select>
+        @if (isInvalid('carId')) {
+          <span class="error">Please choose a car.</span>
+        }
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input id="fullName" type="text" formControlName="fullName" placeholder="Your full name" [class.invalid]="isInvalid('fullName')">
+          @if (isInvalid('fullName')) {
+            <span class="error">Please enter at least 3 characters.</span>
+          }
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" placeholder="name@example.com" [class.invalid]="isInvalid('email')">
+          @if (isInvalid('email')) {
+            <span class="error">Please enter a valid email.</span>
+          }
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="phone">Phone</label>
+          <div class="phone">
+            <span>+216</span>
+            <input id="phone" type="tel" formControlName="phone" placeholder="20123456" maxlength="8" [class.invalid]="isInvalid('phone')">
+          </div>
+          @if (isInvalid('phone')) {
+            <span class="error">8 digits, e.g. 20123456.</span>
+          }
+        </div>
+        <div class="field">
+          <label for="date">Date</label>
+          <input id="date" type="date" formControlName="date" [min]="today" [class.invalid]="isInvalid('date')">
+          @if (isInvalid('date')) {
+            <span class="error">
+              @if (form.get('date')?.hasError('sunday')) {
+                We are closed on Sundays.
+              } @else if (form.get('date')?.hasError('pastDate')) {
+                Please choose a future date.
+              } @else {
+                Please choose a date.
+              }
+            </span>
+          }
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="time">Time</label>
+        <select id="time" formControlName="time" [class.invalid]="isInvalid('time')">
+          <option value="" disabled>Choose a time</option>
+          @for (slot of timeSlots; track slot) {
+            <option [value]="slot">{{slot}}</option>
+          }
+        </select>
+        @if (isInvalid('time')) {
+          <span class="error">Please choose a time.</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="message">Message (optional)</label>
+        <textarea id="message" rows="3" formControlName="message" placeholder="Any request? Color, options, financing..."></textarea>
+      </div>
+
+      <label class="checkbox">
+        <input type="checkbox" formControlName="terms">
+        <span>I agree to be contacted by Maison Rania about this request.</span>
+      </label>
+      @if (isInvalid('terms')) {
+        <span class="error">Please accept to be contacted.</span>
+      }
+
+      @if (soldOut) {
+        <p class="warning">This car is sold out. You can still book a test drive.</p>
+      }
+
+      <button type="submit" class="btn submit">
+        {{ isReservation ? 'Confirm my reservation' : 'Book my test drive' }}
+      </button>
+    </form>
+
+    <aside class="summary">
+      @if (lastAppointment) {
+        <div class="confirmation">
+          <span class="check">✓</span>
+          <h3>Thank you, {{lastAppointment.fullName}}!</h3>
+          <p>
+            Your {{ lastAppointment.type === 'reservation' ? 'reservation' : 'test drive' }}
+            of the <strong>{{lastAppointment.carName}}</strong> is confirmed for
+            <strong>{{lastAppointment.date | date:'EEEE d MMMM'}}</strong>
+            at <strong>{{lastAppointment.time}}</strong>.
+          </p>
+          <p class="small">Our team will call you on +216 {{lastAppointment.phone}}.</p>
+        </div>
+      }
+
+      @if (selectedCar) {
+        <div class="car-summary">
+          <img [src]="`photos/${selectedCar.photo}`" [alt]="selectedCar.model">
+          <span class="brand">{{selectedCar.brand}}</span>
+          <h3>{{selectedCar.model}}</h3>
+          <div class="summary-line">
+            <span>Price</span>
+            <strong>{{selectedCar.price | number:'1.0-0':'fr'}} DT</strong>
+          </div>
+          <div class="summary-line">
+            <span>In stock</span>
+            <strong>{{selectedCar.availability}} units</strong>
+          </div>
+          @if (isReservation) {
+            <div class="summary-line highlight">
+              <span>Deposit (10%)</span>
+              <strong>{{selectedCar.price * 0.1 | number:'1.0-0':'fr'}} DT</strong>
+            </div>
+          }
+          <a [routerLink]="['/car', selectedCar.id]" class="link">View car details →</a>
+        </div>
+      } @else {
+        <div class="car-summary placeholder">
+          <p>Choose a car to see its summary here.</p>
+        </div>
+      }
+    </aside>
+  </div>
+
+  @if (appointments.getAll().length > 0) {
+    <div class="my-bookings">
+      <h3>My appointments</h3>
+      @for (a of appointments.getAll(); track a.id) {
+        <div class="booking-item">
+          <span class="tag" [class.reservation]="a.type === 'reservation'">
+            {{ a.type === 'reservation' ? 'Reservation' : 'Test drive' }}
+          </span>
+          <strong>{{a.carName}}</strong>
+          <span class="when">{{a.date | date:'d MMM yyyy'}} · {{a.time}}</span>
+          <button class="cancel" (click)="cancel(a.id)">Cancel</button>
+        </div>
+      }
+    </div>
+  }
+</section>
