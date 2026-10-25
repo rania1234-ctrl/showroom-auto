@@ -1,11 +1,18 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompareService {
   readonly max = 3;
-  private ids: number[] = [];
+
+  private idsSubject = new BehaviorSubject<number[]>([]);
+  ids$ = this.idsSubject.asObservable();
+
+  private get ids(): number[] {
+    return this.idsSubject.value;
+  }
 
   get count(): number {
     return this.ids.length;
@@ -25,13 +32,13 @@ export class CompareService {
 
   toggle(id: number) {
     if (this.isSelected(id)) {
-      this.ids = this.ids.filter(selectedId => selectedId !== id);
+      this.idsSubject.next(this.ids.filter(selectedId => selectedId !== id));
     } else if (!this.isFull) {
-      this.ids = [...this.ids, id];
+      this.idsSubject.next([...this.ids, id]);
     }
   }
 
   clear() {
-    this.ids = [];
+    this.idsSubject.next([]);
   }
 }

@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FavoritesService {
   private storageKey = 'maison-rania-favorites';
-  private ids: number[] = [];
 
-  constructor() {
-    this.ids = this.load();
+  private idsSubject = new BehaviorSubject<number[]>(this.load());
+  count$ = this.idsSubject.pipe(map(ids => ids.length));
+
+  private get ids(): number[] {
+    return this.idsSubject.value;
   }
 
   get count(): number {
@@ -21,9 +24,9 @@ export class FavoritesService {
 
   toggle(id: number) {
     if (this.isFavorite(id)) {
-      this.ids = this.ids.filter(favoriteId => favoriteId !== id);
+      this.idsSubject.next(this.ids.filter(favoriteId => favoriteId !== id));
     } else {
-      this.ids = [...this.ids, id];
+      this.idsSubject.next([...this.ids, id]);
     }
     this.save();
   }

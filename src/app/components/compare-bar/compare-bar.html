@@ -1,16 +1,18 @@
-@if (compare.count > 0 && !onComparePage) {
-  <div class="compare-bar">
-    <div class="thumbs">
-      @for (car of cars; track car.id) {
-        <img [src]="`photos/${car.photo}`" [alt]="car.model" [title]="car.model">
+@if (state$ | async; as state) {
+  @if (state.visible) {
+    <div class="compare-bar">
+      <div class="thumbs">
+        @for (car of state.cars; track car.id) {
+          <img [src]="`photos/${car.photo}`" [alt]="car.model" [title]="car.model">
+        }
+      </div>
+      <span class="text">{{state.cars.length}} / {{compare.max}} cars selected</span>
+      <button class="clear" (click)="compare.clear()">Clear</button>
+      @if (state.cars.length >= 2) {
+        <a routerLink="/compare" class="go">Compare now →</a>
+      } @else {
+        <span class="hint">Add 1 more</span>
       }
     </div>
-    <span class="text">{{compare.count}} / {{compare.max}} cars selected</span>
-    <button class="clear" (click)="compare.clear()">Clear</button>
-    @if (compare.count >= 2) {
-      <a routerLink="/compare" class="go">Compare now →</a>
-    } @else {
-      <span class="hint">Add 1 more</span>
-    }
-  </div>
+  }
 }

@@ -16,8 +16,8 @@
       <li>
         <a class="link" routerLink="/favorites" routerLinkActive="active">
           Favorites
-          @if (favorites.count > 0) {
-            <span class="count">{{favorites.count}}</span>
+          @if (favorites.count$ | async; as count) {
+            <span class="count">{{count}}</span>
           }
         </a>
       </li>

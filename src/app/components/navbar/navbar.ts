@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faMoon, faSun, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +8,7 @@ import { ThemeService } from '../../services/theme-service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, FontAwesomeModule],
+  imports: [RouterLink, RouterLinkActive, FontAwesomeModule, AsyncPipe],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
