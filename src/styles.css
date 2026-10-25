@@ -364,7 +364,7 @@ body.dark .hero-stage {
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
 }
 
-/* Photos sur fond blanc dans les cartes sombres */
+
 body.dark .similar-card img,
 body.dark .car-summary img {
   padding: 10px;
@@ -373,7 +373,6 @@ body.dark .car-summary img {
   mix-blend-mode: normal !important;
 }
 
-/* Blocs déjà sombres : on ajoute juste une bordure discrète */
 body.dark .simulator,
 body.dark .confirmation {
   border: 1px solid var(--dk-border);
@@ -384,9 +383,6 @@ body.dark .footer {
   border-top: 1px solid var(--dk-border);
 }
 
-/* =========================================================
-   VERSION MOBILE
-   ========================================================= */
 @media (max-width: 960px) {
   body.dark .navbar .right {
     background-color: rgba(18, 16, 17, 0.98) !important;
@@ -410,4 +406,19 @@ body.dark .footer {
   .compare-bar .text {
     display: none;
   }
+}
+
+.hero,
+.card-image,
+.featured-image,
+.fav-image,
+.cell-image,
+.detail-image,
+.car-summary {
+  isolation: isolate;
+}
+
+.navbar,
+.compare-bar {
+  will-change: transform;
 }
